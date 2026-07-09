@@ -1,24 +1,24 @@
 {
   "name": "@ai-native-solutions/fallgarden-sdk",
   "version": "1.0.0",
-  "description": "Sovereign, file-based second brain toolkit. Markdown + wikilinks + tags + graph + backlinks + full-text search. Extracted verbatim from FallGarden.",
-  "license": "MIT",
+  "description": "fallgarden SDK · sovereign single-file library extracted from fallgarden/index.html",
   "type": "module",
   "main": "src/index.js",
-  "exports": {
-    ".": "./src/index.js"
+  "types": "src/index.d.ts",
+  "files": ["src", "docs", "README.md", "LICENSE"],
+  "scripts": {
+    "test": "node --test test/",
+    "smoke": "node examples/smoke.js"
   },
-  "files": ["src", "README.md", "LICENSE"],
-  "keywords": ["markdown", "wikilinks", "graph", "second-brain", "obsidian", "notes", "backlinks", "sovereign"],
-  "homepage": "https://sjgant80-hub.github.io/fallgarden-sdk/",
+  "keywords": ["fallgarden", "sdk", "sovereign", "ai-native-solutions"],
+  "author": "AI-Native Solutions",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sjgant80-hub/fallgarden-sdk"
+    "url": "https://github.com/sjgant80-hub/fallgarden-sdk.git"
   },
+  "homepage": "https://sjgant80-hub.github.io/fallgarden-sdk/",
   "publishConfig": {
     "access": "public"
-  },
-  "scripts": {
-    "test": "node -e \"import('./src/index.js').then(m => { const v = new m.Vault(); v.put('A.md', '# A\\n\\nLinks to [[B]] and has #idea tag.'); v.put('B.md', '# B\\n\\nBack to [[A]].'); console.log('render:', v.render('A.md').slice(0,120)); console.log('graph:', v.graph()); console.log('backlinks:', v.backlinks('B.md')); console.log('search:', v.search('idea')); })\""
   }
 }
