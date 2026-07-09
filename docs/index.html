@@ -1,0 +1,191 @@
+<meta charset="utf-8">
+<title>fallgarden-sdk · playground</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{--void:#1a1a1e;--deep:#212127;--surface:#2a2a30;--line:rgba(232,228,219,0.16);--text:#e8e4db;--muted:#928d80;--sage:#7a9c7e;--sage-dim:rgba(122,156,126,0.14);--amber:#d4a052;--serif:'Cormorant Garamond',Georgia,serif;--sans:'Inter',system-ui,sans-serif;--mono:'JetBrains Mono',monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--void);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.6;padding:20px;min-height:100vh}
+h1{font-family:var(--serif);font-size:32px;font-style:italic;color:var(--sage);margin-bottom:4px}
+h1 em{color:var(--amber)}
+.sub{color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:0.08em;margin-bottom:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:1400px;margin:0 auto}
+.pane{background:var(--deep);border:1px solid var(--line);border-radius:6px;padding:14px;overflow:auto;max-height:78vh}
+.pane h3{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:10px}
+textarea{width:100%;height:200px;background:var(--void);color:var(--text);border:1px solid var(--line);border-radius:4px;padding:10px;font-family:var(--mono);font-size:12.5px;line-height:1.6;resize:vertical}
+button{background:var(--sage-dim);color:var(--sage);border:1px solid var(--sage);padding:6px 14px;border-radius:3px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-right:6px;margin-top:8px}
+button:hover{background:var(--sage);color:var(--void)}
+.tabs{display:flex;gap:2px;margin-bottom:10px;border-bottom:1px solid var(--line)}
+.tab{padding:6px 12px;background:var(--surface);color:var(--muted);font-family:var(--mono);font-size:11px;letter-spacing:0.08em;cursor:pointer;border-radius:3px 3px 0 0}
+.tab.on{background:var(--sage-dim);color:var(--sage)}
+.preview{font-family:var(--serif);font-size:16px;line-height:1.75}
+.preview h1,.preview h2,.preview h3{font-family:var(--serif);color:var(--text);margin:0.6em 0 0.3em;font-weight:600}
+.preview code{background:var(--surface);color:var(--amber);padding:1px 5px;border-radius:3px;font-family:var(--mono);font-size:0.9em}
+.preview pre{background:var(--surface);padding:10px 14px;border-radius:4px;border-left:2px solid var(--sage);overflow-x:auto;margin:0.6em 0}
+.preview blockquote{border-left:3px solid var(--sage);background:var(--sage-dim);padding:6px 12px;margin:0.6em 0;color:var(--muted);font-style:italic}
+.preview .wikilink{color:var(--sage);border-bottom:1px dashed var(--sage)}
+.preview .wikilink.broken{color:#d67a5a;border-bottom-color:#d67a5a}
+.preview .tag{color:var(--amber);font-family:var(--mono);font-size:0.9em;background:rgba(212,160,82,0.12);padding:0 6px;border-radius:8px}
+.preview ul,.preview ol{margin:0.5em 0 0.5em 1.6em}
+pre.raw{background:var(--void);color:var(--text);padding:8px;border-radius:3px;font-family:var(--mono);font-size:11.5px;white-space:pre-wrap;word-break:break-word}
+input[type=text]{width:100%;background:var(--void);color:var(--text);border:1px solid var(--line);border-radius:4px;padding:8px 10px;font-family:var(--mono);font-size:12.5px}
+.hit{padding:8px 10px;border-left:2px solid var(--sage);background:var(--void);margin-bottom:6px;border-radius:0 4px 4px 0;font-size:12px}
+.hit .path{font-family:var(--mono);color:var(--sage);font-size:10.5px;margin-bottom:3px}
+svg{width:100%;height:400px;background:var(--void);border:1px solid var(--line);border-radius:4px}
+svg .node{fill:var(--sage)}
+svg .node.tag{fill:var(--amber)}
+svg .edge{stroke:var(--line);stroke-width:1;fill:none}
+svg .label{font-family:var(--sans);font-size:10px;fill:var(--muted);text-anchor:middle;pointer-events:none}
+.footer{text-align:center;color:var(--muted);font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;margin-top:20px}
+</style>
+<h1><em>fall</em>garden-sdk · playground</h1>
+<div class="sub">SOVEREIGN SECOND BRAIN TOOLKIT · MARKDOWN + WIKILINKS + GRAPH + SEARCH</div>
+<div class="grid">
+  <div class="pane">
+    <h3>Vault</h3>
+    <p style="color:var(--muted);font-size:11px;margin-bottom:8px">One file per textarea. Format: <code style="color:var(--amber);background:var(--surface);padding:0 5px">path.md</code> on line 1, body after.</p>
+    <textarea id="fA">Ideas.md
+# Ideas
+
+Sovereign, file-based. Linked to [[Projects]] and [[Missing Note]].
+
+## Tags
+
+Marked with #sovereign and #inbox.
+
+- one
+- two
+- [ ] task pending
+- [x] task done
+</textarea>
+    <textarea id="fB" style="margin-top:8px;height:140px">Projects.md
+# Projects
+
+- [[Ideas]] feeds this
+- backlink target
+- #project #sovereign
+
+> A quiet garden of files.
+</textarea>
+    <textarea id="fC" style="margin-top:8px;height:120px">Journal/2026-07-09.md
+# Today
+
+Notes on [[Ideas]] and [[Projects]]. #journal
+</textarea>
+    <div>
+      <button onclick="run()">Render vault</button>
+      <button onclick="doGraph()">Draw graph</button>
+    </div>
+  </div>
+  <div class="pane">
+    <div class="tabs">
+      <div class="tab on" data-t="preview">Preview</div>
+      <div class="tab" data-t="graph">Graph</div>
+      <div class="tab" data-t="search">Search</div>
+      <div class="tab" data-t="raw">Raw output</div>
+    </div>
+    <div id="tab-preview">
+      <p style="color:var(--muted);font-size:11px;margin-bottom:6px">Rendered <code style="color:var(--amber);background:var(--surface);padding:0 5px">Ideas.md</code> with resolved wikilinks (broken ones in coral):</p>
+      <div id="prev" class="preview"></div>
+      <h3 style="margin-top:16px">Backlinks to Projects.md</h3>
+      <pre class="raw" id="back"></pre>
+      <h3 style="margin-top:12px">Outgoing links from Ideas.md</h3>
+      <pre class="raw" id="out"></pre>
+      <h3 style="margin-top:12px">All tags</h3>
+      <pre class="raw" id="tags"></pre>
+    </div>
+    <div id="tab-graph" style="display:none">
+      <svg id="graph" viewBox="0 0 800 400"></svg>
+      <p style="color:var(--muted);font-size:11px;margin-top:6px" id="gstat"></p>
+    </div>
+    <div id="tab-search" style="display:none">
+      <input id="q" type="text" placeholder="Search... (try: sovereign, project, journal)" oninput="doSearch()">
+      <div id="hits" style="margin-top:10px"></div>
+    </div>
+    <div id="tab-raw" style="display:none">
+      <pre class="raw" id="raw"></pre>
+    </div>
+  </div>
+</div>
+<div class="footer">MIT · AI-NATIVE SOLUTIONS · ai-nativesolutions.com</div>
+<script type="module">
+import { Vault, md } from '../src/index.js';
+
+let vault = new Vault();
+window.run = function() {
+  vault = new Vault();
+  for (const id of ['fA','fB','fC']) {
+    const raw = document.getElementById(id).value;
+    const nl = raw.indexOf('\n');
+    if (nl < 0) continue;
+    const path = raw.slice(0, nl).trim();
+    const body = raw.slice(nl + 1);
+    if (path) vault.put(path, body);
+  }
+  document.getElementById('prev').innerHTML = vault.render('Ideas.md');
+  document.getElementById('back').textContent = JSON.stringify(vault.backlinks('Projects.md'), null, 2);
+  document.getElementById('out').textContent = JSON.stringify(vault.outgoing('Ideas.md'), null, 2);
+  document.getElementById('tags').textContent = JSON.stringify(vault.allTags(), null, 2);
+  document.getElementById('raw').textContent = 'graph = ' + JSON.stringify(vault.graph(), null, 2);
+};
+
+window.doSearch = function() {
+  const q = document.getElementById('q').value;
+  const hits = vault.search(q);
+  document.getElementById('hits').innerHTML = hits.map(h =>
+    `<div class="hit"><div class="path">${h.path} · score ${h.score.toFixed(2)}</div><div>${h.snippet.slice(0,180)}</div></div>`
+  ).join('') || '<p style="color:var(--muted);font-size:11px">No matches.</p>';
+};
+
+window.doGraph = function() {
+  const svg = document.getElementById('graph');
+  const data = vault.graph({ includeTags: true });
+  const W = 800, H = 400;
+  // simple layout: place nodes on circle
+  const N = data.nodes.length;
+  data.nodes.forEach((n, i) => {
+    const a = (i / N) * Math.PI * 2;
+    n.x = W/2 + Math.cos(a) * 140;
+    n.y = H/2 + Math.sin(a) * 140;
+  });
+  // relax
+  for (let iter=0; iter<120; iter++) {
+    for (let i=0;i<data.nodes.length;i++){
+      const a=data.nodes[i];
+      for (let j=i+1;j<data.nodes.length;j++){
+        const b=data.nodes[j];
+        const dx=b.x-a.x, dy=b.y-a.y; const d2=dx*dx+dy*dy+0.01; const d=Math.sqrt(d2);
+        const rep=1800/d2; a.x-=dx/d*rep; a.y-=dy/d*rep; b.x+=dx/d*rep; b.y+=dy/d*rep;
+      }
+    }
+    for (const l of data.links) {
+      const a=data.nodes[l.source], b=data.nodes[l.target];
+      const dx=b.x-a.x, dy=b.y-a.y; const d=Math.sqrt(dx*dx+dy*dy)+0.01;
+      const s=(d-70)*0.04; a.x+=dx/d*s; a.y+=dy/d*s; b.x-=dx/d*s; b.y-=dy/d*s;
+    }
+  }
+  let html = '';
+  for (const l of data.links) {
+    const a=data.nodes[l.source], b=data.nodes[l.target];
+    html += `<line class="edge" x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}"/>`;
+  }
+  for (const n of data.nodes) {
+    const r = 3 + Math.min(n.degree, 8);
+    html += `<circle class="node${n.kind==='tag'?' tag':''}" cx="${n.x}" cy="${n.y}" r="${r}"/>`;
+    html += `<text class="label" x="${n.x}" y="${n.y-r-3}">${n.label.length>18?n.label.slice(0,16)+'…':n.label}</text>`;
+  }
+  svg.innerHTML = html;
+  document.getElementById('gstat').textContent = `${data.nodes.length} nodes · ${data.links.length} edges`;
+};
+
+for (const t of document.querySelectorAll('.tab')) {
+  t.onclick = () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.toggle('on', x === t));
+    for (const name of ['preview','graph','search','raw']) {
+      document.getElementById('tab-'+name).style.display = name === t.dataset.t ? '' : 'none';
+    }
+    if (t.dataset.t === 'graph') doGraph();
+  };
+}
+
+run();
+</script>
